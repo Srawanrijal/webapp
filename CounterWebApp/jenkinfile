@@ -1,0 +1,29 @@
+pipeline {
+	agent {
+		node {
+			label 'linux'
+			}
+		}	
+	stages {
+		stage('scm-checkout') {
+			steps {
+				git(url: 'https://github.com/Srawanrijal/webapp.git', branch: 'master')
+				}
+			}
+		stage('build') {
+			steps {
+				sh 'mvn -f CounterWebApp/pom.xml clean install'
+				}
+			}
+		stage('archive') {
+			steps {
+				arciveArtifacts(artifacts: '**/target/*.war', onlyIFSuccessful: true)
+				}
+			}
+		stage('deploy') {
+			steps {
+				echo 'This is first deploy'
+					}
+				}
+	}
+}	
