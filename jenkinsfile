@@ -22,8 +22,9 @@ pipeline {
 			}
 		stage('deploy') {
 			steps {
-				echo 'This is first deploy'
+				echo 'This is second try'
 					}
 				}
 	}
 }
+
