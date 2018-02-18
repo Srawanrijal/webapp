@@ -8,7 +8,7 @@ if (Stage == 'build'){
 stage 'archive'
 archiveArtifacts '**/target/*.war'
 stage 'upload to artifactory'
-sh 'curl -X PUT -u admin:APTMavrHJnqV2XY -T ${WORKSPACE}/webapp/target/webapp.war "http://192.168.50.8:8090/artifactory/libs-release-local/com/mkyong/CounterWebApp/webapp-1.0.war"'
+sh 'curl -X PUT -u admin:APTMavrHJnqV2XY -T ${WORKSPACE}/webapp/target/webapp.war "http://192.168.50.8:8081/artifactory/libs-release-local/com/mkyong/CounterWebApp/webapp-1.0.war"'
 stage 'dev deploy'
 echo 'deploying war file'
 stage 'QA Approval'
