@@ -1,0 +1,20 @@
+node('Linux'){
+stage 'scm-checkout'
+checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/deepakbhattarai/maven-project.git']]])
+if (Stage == 'build'){
+    stage 'build'
+    sh '/apps/devops/apache-maven-3.5.2/bin/mvn clean install'
+    stage 'sonar'
+    sh '/apps/devops/apache-maven-3.5.2/bin/mvn sonar:sonar'
+}
+stage 'archive'
+archiveArtifacts '**/target/*.war'
+stage 'upload to artifactory'
+sh 'curl -X PUT -u admin:APTMavrHJnqV2XY -T ${WORKSPACE}/webapp/target/webapp.war "http://192.168.50.8:8090/artifactory/libs-release-local/com/mkyong/CounterWebApp/webapp-1.0.war"'
+stage 'dev deploy'
+echo 'deploying war file'
+stage 'QA Approval'
+input message: 'Approve for QA Deployment ?', ok: 'Approve', submitter: 'admin'
+stage 'QA Deployment'
+build 'deploy-pipeline'
+}
