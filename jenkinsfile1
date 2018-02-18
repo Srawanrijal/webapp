@@ -4,9 +4,7 @@ checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleC
 if (Stage == 'build'){
     stage 'build'
     sh '/apps/devops/apache-maven-3.5.2/bin/mvn clean install'
-    stage 'sonar'
-    sh '/apps/devops/apache-maven-3.5.2/bin/mvn sonar:sonar'
-}
+    }
 stage 'archive'
 archiveArtifacts '**/target/*.war'
 stage 'upload to artifactory'
